@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <section className="relative bg-white text-black overflow-hidden">
       <div className="absolute inset-0 z-0 flex justify-center items-center">
-        <div className="w-[30rem] h-[30rem] bg-gradient-to-r from-blue-500 to-purple-600 rounded-full filter blur-3xl opacity-60 animate-spin"></div>
+        <div className="w-[30rem] h-[30rem] bg-gradient-to-r from-blue-500 to-purple-600 rounded-full filter blur-3xl opacity-50 animate-spin"></div>
         {/* <div className="absolute w-80 h-80 bg-gradient-to-r from-blue-600 to-purple-700 rounded-full filter blur-2xl opacity-60 bottom-10 right-10 animate-bounce"></div> */}
       </div>
       <div className="relative z-10 py-12 px-6 mx-auto max-w-screen-xl text-center lg:py-24 lg:px-12">
@@ -32,7 +32,7 @@ const Home = () => {
             <svg className="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path>
             </svg>
-            Watch Introduction 🎥
+            Watch Introduction 
           </a>  
         </div>
       </div>

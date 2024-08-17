@@ -1,64 +1,138 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import {
+  auth,
+  provider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  db,
+  setDoc,
+  doc,
+} from "../../firebase-config";
+import { toast } from "react-toastify";
+import useStore from "../Store.js";
 
 const Auth = () => {
+  const { setUser } = useStore();
   const [isLogin, setIsLogin] = useState(true);
-  const [userdata, setUserData] = useState({
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
+    username: "",
   });
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    const { email, password, username } = formData;
+    setLoading(true);
+    const data = new FormData(e.target);
+    const email = data.get("email");
+    const password = data.get("password");
 
     try {
-      if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
-      } else {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        const user = userCredential.user;
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      setUser({
+        uid: user.uid,
+        email: user.email,
+        username: user.displayName || formData.username,
+        photoURL: user.photoURL,
+      });
+      e.target.reset();
+      document.cookie = `user_uid=${user.uid}; expires=${new Date(
+        Date.now() + 7 * 24 * 60 * 60 * 1000
+      ).toUTCString()}; path=/`;
 
-        await setDoc(doc(firestore, "users", user.uid), {
-          username,
-          email,
-        });
-      }
+      window.location.href = "/blog";
     } catch (error) {
-      console.error(error.message);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+      e.target.reset();
     }
   };
+
+  const handleSignupSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const data = new FormData(e.target);
+    const email = data.get("email");
+    const password = data.get("password");
+    const username = data.get("username");
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      await setDoc(doc(db, "users", user.uid), {
+        avatar: user.photoURL,
+        username: username,
+        email: user.email,
+      });
+      setUser({
+        uid: user.uid,
+        email: user.email,
+        username: user.displayName,
+        photoURL: user.photoURL,
+      });
+      document.cookie = `user_uid=${user.uid}; expires=${new Date(
+        Date.now() + 7 * 24 * 60 * 60 * 1000
+      ).toUTCString()}; path=/`;
+      window.location.href = "/blog";
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+      e.target.reset();
+    }
+  };
+
   const handleGoogleSignIn = async () => {
+    setLoading(true);
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-
-      // Store user data in Firestore
-      await setDoc(doc(firestore, "users", user.uid), {
+      console.log(user);
+      console.log(user.displayName);
+      await setDoc(doc(db, "users", user.uid), {
+        avatar: user.photoURL,
         username: user.displayName,
         email: user.email,
       });
 
-      toast.success("Google sign-in successful!");
-
+      setUser({
+        uid: user.uid,
+        email: user.email,
+        username: user.displayName,
+        photoURL: user.photoURL,
+      });
+      document.cookie = `user_uid=${user.uid}; expires=${new Date(
+        Date.now() + 7 * 24 * 60 * 60 * 1000
+      ).toUTCString()}; path=/`;
+      window.location.href = "/blog";
+      toast.success("Signed in with Google!");
     } catch (error) {
       toast.error(`Error: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    console.log(userdata);
-  }, [userdata]);
-
   const handleToggle = () => {
     setIsLogin(!isLogin);
+    setFormData({ email: "", password: "", username: "" });
   };
 
   return (
-    <section className=" flex items-center justify-center px-6 h-[85vh]">
+    <section className="flex items-center justify-center px-6 h-[85vh]">
       <div className="w-full max-w-md bg-white rounded-lg shadow-xl">
         <div className="p-5 space-y-6">
           <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
@@ -67,8 +141,7 @@ const Auth = () => {
 
           <form
             className="space-y-4 md:space-y-6"
-            action="#"
-            onSubmit={handleSubmit}
+            onSubmit={isLogin ? handleLoginSubmit : handleSignupSubmit}
           >
             {!isLogin && (
               <div>
@@ -100,7 +173,7 @@ const Auth = () => {
                 name="email"
                 id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="name@company.com"
+                placeholder="john@example.com"
                 required
               />
             </div>
@@ -145,9 +218,14 @@ const Auth = () => {
             </div>
             <button
               type="submit"
-              className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              disabled={loading}
+              className={`w-full text-white ${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              } focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center`}
             >
-              {isLogin ? "Login" : "Create an account"}
+              {loading ? "Loading..." : isLogin ? "Login" : "Create an account"}
             </button>
           </form>
 
@@ -180,7 +258,12 @@ const Auth = () => {
           <button
             onClick={handleGoogleSignIn}
             type="button"
-            className="w-full flex items-center justify-center text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            disabled={loading} // Disable button if loading
+            className={`w-full flex items-center justify-center text-gray-900 ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-gray-100 hover:bg-gray-200"
+            } focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -206,7 +289,7 @@ const Auth = () => {
                 d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
               ></path>
             </svg>
-            Continue with Google
+            Sign in with Google
           </button>
         </div>
       </div>
