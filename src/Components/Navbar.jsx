@@ -65,7 +65,7 @@ const Navbar = () => {
     
 
   return (
-    <nav className=" text-black w-screen dark:bg-slate-900 ">
+    <nav className=" text-black w-screen dark:bg-slate-900 md:px-10 lg:px-10 sm:px-5 p-0 ">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-center mx-auto p-4 md:justify-between lg:justify-between sm:justify-center">
         <Link to="/" className="flex w-max">
           <img src={logo} className="h-[4.5rem]" alt="Logo" />
@@ -266,8 +266,8 @@ const Navbar = () => {
                 </svg>
               </label>
 
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <button onClick={handleCreatePostClick} className="flex items-center">
+        <div className="flex items-center justify-between w-max lg:w-max md:w-full md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+          <button onClick={handleCreatePostClick} className="flex items-center justify-center h-max">
             <img
               src={writeposticon}
               className="w-[3rem] h-[3rem]"
@@ -303,7 +303,27 @@ const Navbar = () => {
                   Signout
                 </span>
               </button>
-              <label id="theme-toggle-button" className="hidden sm:flex md:flex relative items-center justify-center w-28 cursor-pointer text-sm" >
+
+            </div>
+          ) : (
+            <Link to="/auth">
+              <button className="btn flex justify-center items-center gap-3 w-[10em] h-[3.6em] rounded-[3em] border-none transition-all duration-[450ms] ease-in-out bg-blue-700 hover:bg-gradient-to-t hover:from-blue-500 hover:to-blue-700 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.4),inset_0_-4px_0_0_rgba(0,0,0,0.2),0_0_0_4px_rgba(255,255,255,0.2),0_0_180px_0px_rgba(30,144,255,1)] hover:transform hover:translate-y-[-2px] cursor-pointer">
+                <svg
+                  height="24"
+                  width="24"
+                  fill="#AAAAAA"
+                  viewBox="0 0 24 24"
+                  className="sparkle transition-all duration-[800ms] ease-in-out hover:fill-white hover:scale-125"
+                >
+                  <path d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z"></path>
+                </svg>
+                <span className="text font-semibold text-[#AAAAAA] text-md hover:text-white">
+                  Get Started
+                </span>
+              </button>
+            </Link>
+          )}
+                        <label id="theme-toggle-button" className=" hidden md:flex relative items-center justify-center w-28 cursor-pointer text-sm" >
                 <input
                   type="checkbox"
                   id="toggle"
@@ -495,25 +515,6 @@ const Navbar = () => {
                   </g>
                 </svg>
               </label>
-            </div>
-          ) : (
-            <Link to="/auth">
-              <button className="btn flex justify-center items-center gap-3 w-[10em] h-[3.5em] rounded-[3em] border-none transition-all duration-[450ms] ease-in-out bg-blue-700 hover:bg-gradient-to-t hover:from-blue-500 hover:to-blue-700 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.4),inset_0_-4px_0_0_rgba(0,0,0,0.2),0_0_0_4px_rgba(255,255,255,0.2),0_0_180px_0px_rgba(30,144,255,1)] hover:transform hover:translate-y-[-2px] cursor-pointer">
-                <svg
-                  height="24"
-                  width="24"
-                  fill="#AAAAAA"
-                  viewBox="0 0 24 24"
-                  className="sparkle transition-all duration-[800ms] ease-in-out hover:fill-white hover:scale-125"
-                >
-                  <path d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z"></path>
-                </svg>
-                <span className="text font-semibold text-[#AAAAAA] text-md hover:text-white">
-                  Get Started
-                </span>
-              </button>
-            </Link>
-          )}
           <button
             onClick={toggleNav}
             type="button"
