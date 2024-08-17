@@ -98,8 +98,7 @@ const Auth = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      console.log(user);
-      console.log(user.displayName);
+   
       await setDoc(doc(db, "users", user.uid), {
         avatar: user.photoURL,
         username: user.displayName,
@@ -115,7 +114,6 @@ const Auth = () => {
       document.cookie = `user_uid=${user.uid}; expires=${new Date(
         Date.now() + 7 * 24 * 60 * 60 * 1000
       ).toUTCString()}; path=/`;
-      window.location.href = "/blog";
       toast.success("Signed in with Google!");
     } catch (error) {
       toast.error(`Error: ${error.message}`);
