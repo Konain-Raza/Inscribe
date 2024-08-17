@@ -5,6 +5,8 @@ import DOMPurify from 'dompurify';
 const BlogCard = ({ id, img, category, title, content, authorImg, authorName, date, likeCount, readTime }) => {
   const sanitizedContent = DOMPurify.sanitize(content);
 
+  const previewContent = sanitizedContent.length > 150 ? sanitizedContent.slice(0, 150) + '...' : sanitizedContent;
+
   return (
     <div className="w-[25rem] rounded-lg overflow-hidden shadow-lg">
       <Link to={`/blog/${id}`} state={{ blog: { id, img, category, title, content: sanitizedContent, authorImg, authorName, date, likeCount, readTime } }}>
@@ -17,12 +19,12 @@ const BlogCard = ({ id, img, category, title, content, authorImg, authorName, da
       <div className="p-4">
         <p className="text-blue-700 text-left mb-2">{category}</p>
         <Link to={`/blog/${id}`} state={{ blog: { id, img, category, title, content: sanitizedContent, authorImg, authorName, date, likeCount, readTime } }}>
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             {title}
           </h5>
         </Link>
-        <p className="mb-3 text-gray-700 dark:text-gray-400">
-          {sanitizedContent.length > 150 ? sanitizedContent.slice(0, 150) + '...' : sanitizedContent}
+        <p className="mb-3 text-gray-700 dark:text-gray-400"
+           dangerouslySetInnerHTML={{ __html: previewContent }}>
         </p>
         <p className="mb-3 text-gray-600 text-md italic">
           {readTime} min read

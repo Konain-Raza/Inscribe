@@ -34,6 +34,7 @@ const CreatePostForm = () => {
   ];
 
   const { user } = useStore();
+  console.log(user)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,7 +55,7 @@ const CreatePostForm = () => {
         title: e.target.title.value,
         category: e.target.category.value,
         description: description,
-        authorName: user ? user.displayName : "Anonymous",
+        authorName: user ? user.username : "Anonymous",
         readTime: e.target.readTime.value,
         createdAt: new Date(),
         authorPicture: user ? user.photoURL : "",
@@ -67,7 +68,10 @@ const CreatePostForm = () => {
       toast.error(`Error adding post to Firestore: ${error.message}`);
     } finally {
       setIsUploading(false);
+      e.target.reset();
     }
+    e.target.reset();
+
   };
 
   return (
@@ -106,7 +110,7 @@ const CreatePostForm = () => {
 
           <div className="overflow-hidden">
             <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-400">Description</label>
-            <ReactQuill value={description} onChange={setDescription} className="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full h-[400px] dark:bg-gray-700 dark:border-gray-600 text-white" placeholder="Write your blog post content here" />
+            <ReactQuill value={description} onChange={setDescription} className="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full h-[400px] dark:bg-gray-700 dark:border-gray-600 dark:text-white text-black" placeholder="Write your blog post content here" />
           </div>
 
           <button type="submit" className={`w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-3 text-center transition-colors duration-200 ease-in-out ${isUploading ? "opacity-50 cursor-not-allowed" : ""}`} disabled={isUploading}>
