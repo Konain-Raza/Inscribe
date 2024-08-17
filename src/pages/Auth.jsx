@@ -47,7 +47,6 @@ const Auth = () => {
         Date.now() + 7 * 24 * 60 * 60 * 1000
       ).toUTCString()}; path=/`;
 
-      window.location.href = "/blog";
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -86,7 +85,6 @@ const Auth = () => {
       document.cookie = `user_uid=${user.uid}; expires=${new Date(
         Date.now() + 7 * 24 * 60 * 60 * 1000
       ).toUTCString()}; path=/`;
-      window.location.href = "/blog";
     } catch (error) {
       toast.error(error.message);
     } finally {
