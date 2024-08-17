@@ -2,14 +2,14 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-white w-screen py-6">
+    <footer className="bg-white dark:bg-gray-900 w-screen py-6">
       <div className="container mx-auto text-center w-screen">
-      <div className="mt-4 text-gray-500">
+        <div className="mt-4 text-gray-500 dark:text-gray-400">
           Made with{' '}
           <span className="animate-pulse">❤️</span> by{' '}
           <a
             href="https://linkedin.com/in/konain-raza-"
-            className="hover:underline text-gray-900"
+            className="hover:underline text-gray-900 dark:text-gray-200"
           >
             Konain Raza
           </a>
@@ -18,7 +18,7 @@ const Footer = () => {
           {/* LinkedIn Icon */}
           <a
             href="https://linkedin.com/in/konain-raza-"
-            className="text-gray-500 hover:text-gray-900"
+            className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
             aria-label="LinkedIn"
           >
             <svg
@@ -33,8 +33,8 @@ const Footer = () => {
           
           {/* GitHub Icon */}
           <a
-            href="https://github.com/konainraza"
-            className="text-gray-500 hover:text-gray-900"
+            href="https://github.com/Konain-Raza"
+            className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
             aria-label="GitHub"
           >
             <svg
@@ -47,7 +47,6 @@ const Footer = () => {
             </svg>
           </a>
         </div>
-
       </div>
     </footer>
   );

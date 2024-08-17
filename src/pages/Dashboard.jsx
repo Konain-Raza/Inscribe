@@ -27,7 +27,7 @@ const Dashboard = () => {
 
   const handleDelete = async (blogId) => {
     try {
-      await deleteDoc(doc(firestore, "blogs", blogId));
+      await deleteDoc(doc(db, "blogs", blogId));
       setBlogs(blogs.filter((blog) => blog.id !== blogId));
       toast.success("Blog deleted successfully!");
     } catch (error) {
@@ -43,7 +43,7 @@ const Dashboard = () => {
   const handleEditSubmit = async () => {
     if (!editingBlog) return;
     try {
-      await updateDoc(doc(firestore, "blogs", editingBlog.id), {
+      await updateDoc(doc(db, "blogs", editingBlog.id), {
         content: editContent,
       });
       setBlogs(blogs.map((blog) => (blog.id === editingBlog.id ? { ...blog, content: editContent } : blog)));

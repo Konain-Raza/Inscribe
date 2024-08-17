@@ -58,7 +58,7 @@ const App = () => {
   };
 
   return (
-    <Router>
+    <Router className="bg-gray-900">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

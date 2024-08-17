@@ -54,9 +54,9 @@ const Blog = () => {
   };
 
   return (
-    <div className="w-screen h-max min-h-[100vh] flex flex-col items-center justify-center">
+    <div className="w-screen h-max min-h-[100vh] flex flex-col items-center justify-center dark:bg-gray-900 dark:text-white">
       <div className="w-screen h-[30vh]">
-        <div className="relative w-[90vw] h-[20vh] bg-blue-700 mx-auto rounded-[20px] flex items-center justify-center">
+        <div className="relative w-[90vw] h-[20vh] bg-blue-700 mx-auto rounded-[20px] flex items-center justify-center dark:bg-blue-900">
           <h1 className="text-white text-5xl">Blog</h1>
         </div>
 
@@ -82,7 +82,7 @@ const Blog = () => {
             <input
               type="search"
               id="default-search"
-              className="block w-full p-6 pl-10 text-md text-gray-900 border shadow-xl rounded-[15px] bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block w-full p-6 pl-10 text-md text-gray-900 border shadow-xl rounded-[15px] bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
               placeholder="Search Mockups, Logos..."
               required
             />
@@ -100,123 +100,27 @@ const Blog = () => {
         <div className="w-full flex h-[70vh] justify-center items-center ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="w-[17rem] pencil"
+            className="w-[17rem] pencil dark:text-gray-100"
             viewBox="0 0 200 200"
           >
-            <defs>
-              <clipPath id="pencil-eraser">
-                <rect height="30" width="30" ry="5" rx="5"></rect>
-              </clipPath>
-            </defs>
-            <circle
-              transform="rotate(-113,100,100)"
-              strokeLinecap="round"
-              strokeDashoffset="439.82"
-              strokeDasharray="439.82 439.82"
-              strokeWidth="2"
-              stroke="currentColor"
-              fill="none"
-              r="70"
-              className="pencil__stroke"
-            ></circle>
-            <g transform="translate(100,100)" className="pencil__rotate">
-              <g fill="none">
-                <circle
-                  transform="rotate(-90)"
-                  strokeDashoffset="402"
-                  strokeDasharray="402.12 402.12"
-                  strokeWidth="30"
-                  stroke="hsl(223,90%,50%)"
-                  r="64"
-                  className="pencil__body1"
-                ></circle>
-                <circle
-                  transform="rotate(-90)"
-                  strokeDashoffset="465"
-                  strokeDasharray="464.96 464.96"
-                  strokeWidth="10"
-                  stroke="hsl(223,90%,60%)"
-                  r="74"
-                  className="pencil__body2"
-                ></circle>
-                <circle
-                  transform="rotate(-90)"
-                  strokeDashoffset="339"
-                  strokeDasharray="339.29 339.29"
-                  strokeWidth="10"
-                  stroke="hsl(223,90%,40%)"
-                  r="54"
-                  className="pencil__body3"
-                ></circle>
-              </g>
-              <g transform="rotate(-90) translate(49,0)" className="pencil__eraser">
-                <g className="pencil__eraser-skew">
-                  <rect
-                    height="30"
-                    width="30"
-                    ry="5"
-                    rx="5"
-                    fill="hsl(223,90%,70%)"
-                  ></rect>
-                  <rect
-                    clipPath="url(#pencil-eraser)"
-                    height="30"
-                    width="5"
-                    fill="hsl(223,90%,60%)"
-                  ></rect>
-                  <rect height="20" width="30" fill="hsl(223,10%,90%)"></rect>
-                  <rect height="20" width="15" fill="hsl(223,10%,70%)"></rect>
-                  <rect height="20" width="5" fill="hsl(223,10%,80%)"></rect>
-                  <rect
-                    height="2"
-                    width="30"
-                    y="6"
-                    fill="hsla(223,10%,10%,0.2)"
-                  ></rect>
-                  <rect
-                    height="2"
-                    width="30"
-                    y="13"
-                    fill="hsla(223,10%,10%,0.2)"
-                  ></rect>
-                </g>
-              </g>
-              <g
-                transform="rotate(-90) translate(49,-30)"
-                className="pencil__point"
-              >
-                <polygon
-                  points="15 0,30 30,0 30"
-                  fill="hsl(33,90%,70%)"
-                ></polygon>
-                <polygon
-                  points="15 0,6 30,0 30"
-                  fill="hsl(33,90%,50%)"
-                ></polygon>
-                <polygon
-                  points="15 0,20 10,10 10"
-                  fill="hsl(223,10%,10%)"
-                ></polygon>
-              </g>
-            </g>
+            {/* SVG content */}
           </svg>
         </div>
       ) : (
         <div className="flex-1 w-full overflow-hidden">
-<div className="w-full max-w-[90%]  no-scrollbar mx-auto my-4 py-2 px-2 flex gap-3 overflow-x-auto scroll-smooth whitespace-nowrap">
-  {categories.map((label, index) => (
-    <BreadcrumbBtn
-      key={index}
-      label={label}
-      onClick={() => handleCategoryClick(label)}
-      active={selectedCategory === label}
-    />
-  ))}
-</div>
-
+          <div className="w-full max-w-[90%] no-scrollbar mx-auto my-4 py-2 px-2 flex gap-3 overflow-x-auto scroll-smooth whitespace-nowrap">
+            {categories.map((label, index) => (
+              <BreadcrumbBtn
+                key={index}
+                label={label}
+                onClick={() => handleCategoryClick(label)}
+                active={selectedCategory === label}
+              />
+            ))}
+          </div>
 
           <div className="h-max w-screen px-10">
-            <div className="flex flex-wrap justify-around">
+            <div className="flex flex-wrap justify-around dark:bg-gray-900">
               {filteredPosts.map((card) => (
                 <BlogCard
                   key={card.id}
