@@ -32,7 +32,7 @@ const BlogCard = ({ id, img, category, title, content, authorImg, authorName, da
         <div className="flex items-center mb-4">
           <img className="w-12 h-12 rounded-full object-cover" src={authorImg} alt={authorName} />
           <div className="ml-3">
-            <p className="text-gray-900 dark:text-gray-900">{authorName}</p>
+            <p className="text-gray-900 dark:text-gray-500">{authorName}</p>
             <p className="text-gray-600 dark:text-gray-400 text-sm">{date}</p>
           </div>
         </div>
