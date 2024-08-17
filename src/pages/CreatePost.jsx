@@ -11,7 +11,6 @@ import {
 } from "../../firebase-config.js";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css';
 const CreatePostForm = () => {
   const [formValues, setFormValues] = useState({
     coverPhoto: null,
