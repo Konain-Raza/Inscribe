@@ -11,6 +11,8 @@ import {
 } from "../../firebase-config.js";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; // Make sure CSS is imported
+
 const CreatePostForm = () => {
   const [formValues, setFormValues] = useState({
     coverPhoto: null,
@@ -38,32 +40,32 @@ const CreatePostForm = () => {
     "Business",
     "Fashion",
   ];
-  
+
   const { user } = useStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsUploading(true);
 
-    const formData = new FormData(e.target);
-    const coverPhoto = formData.get("coverPhoto");
-
     try {
+      const coverPhoto = e.target.coverPhoto.files[0]; // Get file directly from event target
+
       let coverPhotoURL = "";
       if (coverPhoto) {
         const storageRef = ref(storage, `coverPhotos/${coverPhoto.name}`);
         const snapshot = await uploadBytes(storageRef, coverPhoto);
         coverPhotoURL = await getDownloadURL(snapshot.ref);
       }
+
       const postData = {
         coverPhotoURL,
-        title: formData.get("title"),
-        category: formData.get("category"),
+        title: e.target.title.value,
+        category: e.target.category.value,
         description: description,
         authorName: user ? user.displayName : "Anonymous",
-        readTime: formData.get("readTime"),
+        readTime: e.target.readTime.value,
         createdAt: new Date(),
-        authorPicture: user.photoURL,
+        authorPicture: user ? user.photoURL : "",
         likeCount: 0,
       };
 
